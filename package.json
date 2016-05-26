@@ -1,0 +1,23 @@
+{
+  "name": "senior-test",
+  "version": "0.0.0",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.12.2",
+    "grunt": "^0.4.5",
+    "grunt-contrib-less": "^1.0.1",
+    "grunt-less": "^0.1.7",
+    "load-grunt-tasks": "^3.5.0",
+    "multer": "^1.1.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-bower-install": "~0.5.0",
+    "grunt-contrib-imagemin": "~0.2.0",
+    "grunt-contrib-watch": "~0.5.2",
+    "grunt-requirejs": "~0.4.0"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  }
+}

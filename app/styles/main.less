@@ -1,0 +1,296 @@
+@import 'jquery-ui-1.10.3.custom.css';
+@import 'ChemDoodleWeb.css';
+@import 'css/st1.css';
+
+@commonTransition: all ease-out 1s;
+
+.vendor(@property, @value) {
+  -webkit-@{property}: @value;
+  -moz-@{property}: @value;
+  @{property}: @value;
+}
+@marineblue: hsl(198, 100%, 66%);
+@bloodyred: hsl(0, 78%, 38%);
+@font-face {
+  font-family: open-sans; /* Имя шрифта */
+  src: url(font/OpenSans-Regular.ttf); /* Путь к файлу со шрифтом */
+}
+body{
+  font-family: open-sans;
+}
+#sketcher-wrapper{
+  position: relative;
+  width:50%;
+  float:left;
+}
+.main{
+  float: right;
+  width:30%;
+}
+.molecules-view-wrapper{
+//  clear: both;
+  .molecules-iteraction{
+    div{
+      width:50%;
+      height:30px;
+      text-align: center;
+      padding-top: 3px;
+      cursor:pointer;
+      color: #5F5F5F;
+      text-shadow: 0px 0px 1px rgba(150, 150, 150, 1);
+      font-size: 14px;
+      &:hover{
+        background-color: #eee;
+        color: #5F5F5F;
+        i{
+          color: darken(@marineblue, 20%);
+        }
+      }
+      float: left;
+      i{
+        margin-top: 6px;
+      }
+    }
+  }
+  .molecules-arrow{
+    clear: both;
+    width:100%;
+    min-height: 20px;
+    background-color: #dfdfdf;
+    text-align: center;
+    text-shadow: 0px 0px 1px rgba(150, 150, 150, 1);
+    cursor:pointer;
+    &:hover{
+      background-color: #F3F1F1;
+    }
+  }
+  .molecules-wrapper{
+    border:1px solid #dfdfdf;
+    padding: 5px;
+    list-style-type: none;
+    margin: 0;
+    max-height: 465px;
+    overflow: hidden;
+    .molecule-view-wrapper{
+      .vendor(transition, @commonTransition);
+      &:first-child{
+        border-radius: 2px 2px 0 0;
+      }
+      &:last-child{
+        border-radius: 0 0 2px 2px;
+      }
+      border: 1px solid #000011;
+      margin-top:-1px;
+      min-height: 100px;
+      height: 153px;
+      .core{
+        position: relative;
+        top: 0px;
+        width: 15px;
+        input{
+          margin-left: 0px;
+        }
+      }
+      .molecule-name{
+        max-width: 100%;
+        overflow-x: scroll;
+        clear: both;
+        margin-left: 25px;
+        white-space: nowrap;
+        opacity:0.2;
+        position: absolute;
+        .vendor(transition, @commonTransition);
+        &:hover{
+          .vendor(transition, @commonTransition);
+          opacity:1;
+        }
+      }
+      .molecule-options-wrapper{
+        width:30%;
+        height: 100%;
+        float: left;
+        background-color: #EFEFEF;
+//        margin-top:-22px;
+        &.main-molecule{
+          &:before{
+            content: '•';
+//            content: url(img/Triangle.png);
+            float: left;
+            color:darken(@marineblue,20%);
+            position: absolute;
+            font-size: 45px;
+            margin-left: -9px;
+            margin-top: -23px;
+//            transform: rotate(45deg);
+          }
+        }
+        .molecule-options{
+          padding:5px;
+          font-size:13px;
+          list-style-type: none;
+          max-height: 126px;
+          overflow-y: scroll;
+//          padding-top: 22px;
+          .molecule-option{
+            input{
+              width: 100%;
+            }
+          }
+        }
+      }
+      .molecule-image-wrapper{
+        text-align: center;
+        width: 70%;
+        margin-left: 30%;
+        cursor: pointer;
+//        cursor: url(img/document_arrow_left.png), auto;
+        position: relative;
+        .image{
+          max-width:100%;
+          max-height: 153px;
+        }
+        .molecule-remove{
+          position: absolute;
+          right: 10px;
+          top: 10px;
+          color: @bloodyred;
+          &:hover{
+            color: @marineblue;
+            cursor:pointer!important;
+          }
+        }
+      }
+    }
+  }
+}
+.log-wrapper{
+  width:20%;
+  float:left;
+  margin-top:17px;
+  div{
+    padding: 5px;
+  }
+  .log-ul{
+    border:1px solid #dfdfdf;
+    list-style-type: none;
+    padding: 5px;
+    font-size: 12px;
+    text-shadow: 0px 0px 1px rgba(150, 150, 150, 1);
+    height:322px;
+    overflow-y:scroll;
+    li{
+      cursor: url(img/cancel.png), auto;
+      &:hover{
+        text-decoration: underline;
+        color: @bloodyred;
+      }
+    }
+  }
+}
+
+.insert-order{
+  color:#d868ce;
+}
+.pictureInput {
+  text-indent: 20px;
+  height: 25px;
+  color: #555555;
+  text-align: right;
+  width: 212px;
+  &:focus{
+    outline: none;
+  }
+  margin-left:7px;
+  border:none;
+  border-bottom:1px solid @marineblue;
+}
+.input-wrapper {
+  position:relative;
+}
+.img-wrapper {
+  position:absolute;
+  top:2px;
+  left:2px;
+  color: #555555;
+  i{
+    display: block;
+    font-size:20px;
+    text-shadow: 0px 0px 1px rgba(150, 150, 150, 1);
+    &:before {
+      display: block;
+    }
+  }
+}
+
+.settings{
+  position: relative;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px dashed #dfdfdf;
+}
+.add-molecule{
+  position: relative;
+
+  input.upload {
+    height: 100%;
+    right:0;
+    margin:0;
+    bottom:0;
+    padding:0;
+    opacity:0;
+    width:100%;
+    outline:none;
+    cursor:pointer;
+    position:absolute;
+    font-size:1000px !important;
+  }
+}
+#dummyframe{
+  display: none;
+}
+.iterations-wrapper{
+  width:100%;
+  .iterations-ul{
+    display: table;
+    width: 100%;
+    padding: 0px;
+    text-align: center;
+    li{
+      text-shadow: 0px 0px 1px rgba(150, 150, 150, 1);
+      list-style-type: none;
+      display: inline-block;
+      display: table-cell;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      border: 1px solid black;
+      border-left: 0px;
+      cursor:pointer;
+      &.active{
+        box-shadow: inset 1px 0px 10px 0px #ABABAB;
+        -webkit-box-shadow: inset 1px 0px 10px 0px #ABABAB;
+        -moz-box-shadow: inset 1px 0px 10px 0px #ABABAB;
+        -o-box-shadow: inset 1px 0px 10px 0px #ABABAB;
+      }
+      &:hover{
+        background-color: #dfdfdf;
+      }
+      &:last-child{
+        border-radius: 0px 2px 2px 0px;
+        -moz-border-radius: 0px 2px 2px 0px;
+        -webkit-border-radius: 0px 2px 2px 0px;
+      }
+      &.add-iteration{
+        width: 50px;
+        background-color: #A3D4C0;
+        border-left: 1px solid black;
+        border-radius: 2px 0px 0px 2px;
+        -moz-border-radius: 2px 0px 0px 2px;
+        -webkit-border-radius: 2px 0px 0px 2px;
+        &:hover{
+          background-color: #80D88F;
+        }
+      }
+    }
+  }
+}

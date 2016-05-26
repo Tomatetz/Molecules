@@ -1,0 +1,277 @@
+@import 'jquery-ui-1.10.3.custom.css';
+@import 'ChemDoodleWeb.css';
+@import 'css/st1.css';
+@font-face {
+  font-family: open-sans;
+  /* Имя шрифта */
+  src: url(font/OpenSans-Regular.ttf);
+  /* Путь к файлу со шрифтом */
+}
+body {
+  font-family: open-sans;
+}
+#sketcher-wrapper {
+  position: relative;
+  width: 50%;
+  float: left;
+}
+.main {
+  float: right;
+  width: 30%;
+}
+.molecules-view-wrapper .molecules-iteraction div {
+  width: 50%;
+  height: 30px;
+  text-align: center;
+  padding-top: 3px;
+  cursor: pointer;
+  color: #5F5F5F;
+  text-shadow: 0px 0px 1px #969696;
+  font-size: 14px;
+  float: left;
+}
+.molecules-view-wrapper .molecules-iteraction div:hover {
+  background-color: #eee;
+  color: #5F5F5F;
+}
+.molecules-view-wrapper .molecules-iteraction div:hover i {
+  color: #00a4eb;
+}
+.molecules-view-wrapper .molecules-iteraction div i {
+  margin-top: 6px;
+}
+.molecules-view-wrapper .molecules-arrow {
+  clear: both;
+  width: 100%;
+  min-height: 20px;
+  background-color: #dfdfdf;
+  text-align: center;
+  text-shadow: 0px 0px 1px #969696;
+  cursor: pointer;
+}
+.molecules-view-wrapper .molecules-arrow:hover {
+  background-color: #F3F1F1;
+}
+.molecules-view-wrapper .molecules-wrapper {
+  border: 1px solid #dfdfdf;
+  padding: 5px;
+  list-style-type: none;
+  margin: 0;
+  max-height: 465px;
+  overflow: hidden;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper {
+  -webkit-transition: all ease-out 1s;
+  -moz-transition: all ease-out 1s;
+  transition: all ease-out 1s;
+  border: 1px solid #000011;
+  margin-top: -1px;
+  min-height: 100px;
+  height: 153px;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper:first-child {
+  border-radius: 2px 2px 0 0;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper:last-child {
+  border-radius: 0 0 2px 2px;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .core {
+  position: relative;
+  top: 0px;
+  width: 15px;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .core input {
+  margin-left: 0px;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-name {
+  max-width: 100%;
+  overflow-x: scroll;
+  clear: both;
+  margin-left: 25px;
+  white-space: nowrap;
+  opacity: 0.2;
+  position: absolute;
+  -webkit-transition: all ease-out 1s;
+  -moz-transition: all ease-out 1s;
+  transition: all ease-out 1s;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-name:hover {
+  -webkit-transition: all ease-out 1s;
+  -moz-transition: all ease-out 1s;
+  transition: all ease-out 1s;
+  opacity: 1;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-options-wrapper {
+  width: 30%;
+  height: 100%;
+  float: left;
+  background-color: #EFEFEF;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-options-wrapper.main-molecule:before {
+  content: '•';
+  float: left;
+  color: #00a4eb;
+  position: absolute;
+  font-size: 45px;
+  margin-left: -9px;
+  margin-top: -23px;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-options-wrapper .molecule-options {
+  padding: 5px;
+  font-size: 13px;
+  list-style-type: none;
+  max-height: 126px;
+  overflow-y: scroll;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-options-wrapper .molecule-options .molecule-option input {
+  width: 100%;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-image-wrapper {
+  text-align: center;
+  width: 70%;
+  margin-left: 30%;
+  cursor: pointer;
+  position: relative;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-image-wrapper .image {
+  max-width: 100%;
+  max-height: 153px;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-image-wrapper .molecule-remove {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: #ac1515;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-image-wrapper .molecule-remove:hover {
+  color: #52cbff;
+  cursor: pointer!important;
+}
+.log-wrapper {
+  width: 20%;
+  float: left;
+  margin-top: 17px;
+}
+.log-wrapper div {
+  padding: 5px;
+}
+.log-wrapper .log-ul {
+  border: 1px solid #dfdfdf;
+  list-style-type: none;
+  padding: 5px;
+  font-size: 12px;
+  text-shadow: 0px 0px 1px #969696;
+  height: 322px;
+  overflow-y: scroll;
+}
+.log-wrapper .log-ul li {
+  cursor: url(img/cancel.png), auto;
+}
+.log-wrapper .log-ul li:hover {
+  text-decoration: underline;
+  color: #ac1515;
+}
+.insert-order {
+  color: #d868ce;
+}
+.pictureInput {
+  text-indent: 20px;
+  height: 25px;
+  color: #555555;
+  text-align: right;
+  width: 212px;
+  margin-left: 7px;
+  border: none;
+  border-bottom: 1px solid #52cbff;
+}
+.pictureInput:focus {
+  outline: none;
+}
+.input-wrapper {
+  position: relative;
+}
+.img-wrapper {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  color: #555555;
+}
+.img-wrapper i {
+  display: block;
+  font-size: 20px;
+  text-shadow: 0px 0px 1px #969696;
+}
+.img-wrapper i:before {
+  display: block;
+}
+.settings {
+  position: relative;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px dashed #dfdfdf;
+}
+.add-molecule {
+  position: relative;
+}
+.add-molecule input.upload {
+  height: 100%;
+  right: 0;
+  margin: 0;
+  bottom: 0;
+  padding: 0;
+  opacity: 0;
+  width: 100%;
+  outline: none;
+  cursor: pointer;
+  position: absolute;
+  font-size: 1000px !important;
+}
+#dummyframe {
+  display: none;
+}
+.iterations-wrapper {
+  width: 100%;
+}
+.iterations-wrapper .iterations-ul {
+  display: table;
+  width: 100%;
+  padding: 0px;
+  text-align: center;
+}
+.iterations-wrapper .iterations-ul li {
+  text-shadow: 0px 0px 1px #969696;
+  list-style-type: none;
+  display: inline-block;
+  display: table-cell;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border: 1px solid black;
+  border-left: 0px;
+  cursor: pointer;
+}
+.iterations-wrapper .iterations-ul li.active {
+  box-shadow: inset 1px 0px 10px 0px #ABABAB;
+  -webkit-box-shadow: inset 1px 0px 10px 0px #ABABAB;
+  -moz-box-shadow: inset 1px 0px 10px 0px #ABABAB;
+  -o-box-shadow: inset 1px 0px 10px 0px #ABABAB;
+}
+.iterations-wrapper .iterations-ul li:hover {
+  background-color: #dfdfdf;
+}
+.iterations-wrapper .iterations-ul li:last-child {
+  border-radius: 0px 2px 2px 0px;
+  -moz-border-radius: 0px 2px 2px 0px;
+  -webkit-border-radius: 0px 2px 2px 0px;
+}
+.iterations-wrapper .iterations-ul li.add-iteration {
+  width: 50px;
+  background-color: #A3D4C0;
+  border-left: 1px solid black;
+  border-radius: 2px 0px 0px 2px;
+  -moz-border-radius: 2px 0px 0px 2px;
+  -webkit-border-radius: 2px 0px 0px 2px;
+}
+.iterations-wrapper .iterations-ul li.add-iteration:hover {
+  background-color: #80D88F;
+}
