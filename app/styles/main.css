@@ -28,9 +28,15 @@ body {
   color: #5F5F5F;
   text-shadow: 0px 0px 1px #969696;
   font-size: 14px;
+  -webkit-transition: all ease-out 0.3s;
+  -moz-transition: all ease-out 0.3s;
+  transition: all ease-out 0.3s;
   float: left;
 }
 .molecules-view-wrapper .molecules-iteraction div:hover {
+  -webkit-transition: all ease-out 0.3s;
+  -moz-transition: all ease-out 0.3s;
+  transition: all ease-out 0.3s;
   background-color: #eee;
   color: #5F5F5F;
 }
@@ -48,8 +54,14 @@ body {
   text-align: center;
   text-shadow: 0px 0px 1px #969696;
   cursor: pointer;
+  -webkit-transition: background-color ease-out 0.3s;
+  -moz-transition: background-color ease-out 0.3s;
+  transition: background-color ease-out 0.3s;
 }
 .molecules-view-wrapper .molecules-arrow:hover {
+  -webkit-transition: background-color ease-out 0.3s;
+  -moz-transition: background-color ease-out 0.3s;
+  transition: background-color ease-out 0.3s;
   background-color: #F3F1F1;
 }
 .molecules-view-wrapper .molecules-wrapper {
@@ -61,9 +73,10 @@ body {
   overflow: hidden;
 }
 .molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper {
-  -webkit-transition: all ease-out 1s;
-  -moz-transition: all ease-out 1s;
-  transition: all ease-out 1s;
+  position: relative;
+  -webkit-transition: all ease-out 0.3s;
+  -moz-transition: all ease-out 0.3s;
+  transition: all ease-out 0.3s;
   border: 1px solid #000011;
   margin-top: -1px;
   min-height: 100px;
@@ -135,13 +148,14 @@ body {
 }
 .molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-image-wrapper .image {
   max-width: 100%;
-  max-height: 153px;
+  margin-top: 2px;
+  max-height: 149px;
 }
 .molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-image-wrapper .molecule-remove {
   position: absolute;
   right: 10px;
   top: 10px;
-  color: #ac1515;
+  color: #5F5F5F;
 }
 .molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-image-wrapper .molecule-remove:hover {
   color: #52cbff;
@@ -170,6 +184,9 @@ body {
 .log-wrapper .log-ul li:hover {
   text-decoration: underline;
   color: #ac1515;
+  -webkit-transition: all ease-out 0.3s;
+  -moz-transition: all ease-out 0.3s;
+  transition: all ease-out 0.3s;
 }
 .insert-order {
   color: #d868ce;
@@ -231,12 +248,24 @@ body {
 }
 .iterations-wrapper {
   width: 100%;
+  padding: 5px 5px 5px 0;
+  border: 1px dashed #dfdfdf;
+  margin-top: 5px;
+  box-sizing: border-box;
+}
+.iterations-wrapper .iterations {
+  text-align: center;
+  font-size: 13px;
+  text-shadow: 0px 0px 1px #969696;
+  color: #5F5F5F;
 }
 .iterations-wrapper .iterations-ul {
   display: table;
   width: 100%;
   padding: 0px;
   text-align: center;
+  margin-top: 5px;
+  margin-bottom: 0px;
 }
 .iterations-wrapper .iterations-ul li {
   text-shadow: 0px 0px 1px #969696;
@@ -246,32 +275,32 @@ body {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  border: 1px solid black;
   border-left: 0px;
+  font-size: 11px;
   cursor: pointer;
+  -webkit-transition: background-color ease-out 0.3s;
+  -moz-transition: background-color ease-out 0.3s;
+  transition: background-color ease-out 0.3s;
 }
 .iterations-wrapper .iterations-ul li.active {
-  box-shadow: inset 1px 0px 10px 0px #ABABAB;
-  -webkit-box-shadow: inset 1px 0px 10px 0px #ABABAB;
-  -moz-box-shadow: inset 1px 0px 10px 0px #ABABAB;
-  -o-box-shadow: inset 1px 0px 10px 0px #ABABAB;
+  border-bottom: 2px solid #52cbff;
+  font-size: 15px;
+  cursor: default;
 }
-.iterations-wrapper .iterations-ul li:hover {
-  background-color: #dfdfdf;
+.iterations-wrapper .iterations-ul li.active.paddingFirst {
+  padding-right: 43px;
 }
-.iterations-wrapper .iterations-ul li:last-child {
-  border-radius: 0px 2px 2px 0px;
-  -moz-border-radius: 0px 2px 2px 0px;
-  -webkit-border-radius: 0px 2px 2px 0px;
+.iterations-wrapper .iterations-ul li:hover:not(.active) {
+  -webkit-transition: background-color ease-out 0.3s;
+  -moz-transition: background-color ease-out 0.3s;
+  transition: background-color ease-out 0.3s;
+  background-color: #eee;
 }
 .iterations-wrapper .iterations-ul li.add-iteration {
   width: 50px;
-  background-color: #A3D4C0;
-  border-left: 1px solid black;
-  border-radius: 2px 0px 0px 2px;
-  -moz-border-radius: 2px 0px 0px 2px;
-  -webkit-border-radius: 2px 0px 0px 2px;
+  color: #5F5F5F;
 }
 .iterations-wrapper .iterations-ul li.add-iteration:hover {
-  background-color: #80D88F;
+  color: #80D88F;
+  background-color: #fff;
 }

@@ -10,7 +10,11 @@ define(['app', 'model', 'cycle'],
                     'click .molecule-image-wrapper': 'loadMolecule',
                     'click .core input': 'switchCore',
                     'click .molecule-remove': 'removeMolecule',
+                    'click .is-core': 'coreMolecule',
                     'keyup .molecule-action input': 'setActionValue'
+                },
+                coreMolecule:function(event){
+                    this.trigger('set:core', event);
                 },
                 setActionValue:function(event){
                     if((event.keyCode >= 48 && event.keyCode <= 57)||event.keyCode == 8||event.keyCode == 46){
@@ -64,7 +68,7 @@ define(['app', 'model', 'cycle'],
                     'click .new-molecule': function(){sketcher.clear();},
                     'click .molecules-arrow': 'slide',
                     'change .upload': 'submitForm',
-                    'click .add-iteration': 'addIteration',
+                    'click .add-iteration': 'addIteration'
                 },
                 onChildviewChangeActionValue: function(childView, event){
                     event = event.event;
@@ -76,6 +80,9 @@ define(['app', 'model', 'cycle'],
                         actionOrder : $(event.target).data('name')?$(event.target).data('name').substring(1):false
                     };
                     this.trigger('change:actionValue', info);
+                },
+                onChildviewSetCore: function(childView, event){
+                    this.trigger('set:core', childView, event);
                 },
                 addIteration: function(){
                     this.trigger('add:iteration');
@@ -133,7 +140,6 @@ define(['app', 'model', 'cycle'],
                         sketcher.repaint();
 
                         var x, y,lX,lY;
-                        //console.log(sketcher.specs.scale);
                         $.each(sketcher.molecules, function(i,molecule){
                             $.each(molecule.atoms, function(j,atom){
                                 //console.log('x: '+atom.x,', y: '+atom.y)
@@ -208,7 +214,8 @@ define(['app', 'model', 'cycle'],
                         var name = molecule.name?molecule.name:molecule.get('name');
                         iterationsCollection.models.forEach(function(model) {
                             var actionsClone = [];
-                            _.each(molecule.actions, function(action){
+                            var actions = molecule.actions?molecule.actions:molecule.get('actions');
+                            _.each(actions, function(action){
                                 actionsClone.push(
                                     $.extend(true, {}, action)
                                 );
@@ -216,15 +223,16 @@ define(['app', 'model', 'cycle'],
                             var molecules = model.get('molecules').slice();
                             molecules.push({
                                 name: name,
-                                actions: actionsClone
+                                actions: actionsClone,
+                                core: false
                             });
                             model.set({molecules: molecules});
                         });
-                        //console.log(iterationsCollection);
                     });
                     this.$el.find('.iterations-wrapper').append(iterationsView.render().el);
 
                     this.on('add:iteration', function(){
+                        this.$el.find('.iteration').removeClass('paddingFirst');
                         var molsClone = [];
                         _.each(iterationsCollection.where({active:true})[0].get('molecules'), function(molecule){
                             molsClone.push(
@@ -232,6 +240,7 @@ define(['app', 'model', 'cycle'],
                             );
                         });
                         _.each(molsClone, function(molecule){
+                            molecule.core = false;
                             molecule.actions.map(function(action){
                                 return action.value = '';
                             });
@@ -244,7 +253,6 @@ define(['app', 'model', 'cycle'],
 
                     this.on('change:actionValue', function(info){
                         var currentAction = iterationsCollection.where({active:true});
-                        //console.log(currentAction,info);
                         var changedMolecule = currentAction[0].get('molecules').filter(function(molecule) {
                             return molecule.name == info.actionMolecule;
                         });
@@ -252,23 +260,33 @@ define(['app', 'model', 'cycle'],
                             var currentInsert = changedMolecule[0].actions.filter(function(action){
                                 return action.order == info.actionOrder;
                             });
-                            currentInsert[0].value = info.actionValue;
+                            currentInsert[0].value = info.actionValue||'';
                         } else if(info.actionType=='attach'){
                             var currentAttach = changedMolecule[0].actions.filter(function(action){
                                 return (action.event == 'attach' && info.actionAtoms == action.atoms[0]);
                             });
-                            currentAttach[0].value = info.actionValue;
+                            console.log(currentAction);
+                            if(currentAttach[0]){
+                                currentAttach[0].value = info.actionValue||'';
+                            }
                         }
-                        //console.log(changedMolecule);
+                    });
+                    this.on('set:core', function(view, event){
+                        var currentAction = iterationsCollection.where({active:true});
+                        var changedMolecule = currentAction[0].get('molecules').filter(function(molecule) {
+                            return molecule.name == view.model.get('name');
+                        });
+                        changedMolecule[0].core = $(event.target).is(":checked");
                     });
                     iterationsView.on('change:iteration', function(currentIteration){
                         _.each(currentIteration.model.get('molecules'), function(molecule){
+                            $that.$el.find('.core input').filter('[data-name="'+molecule.name+'"]').prop('checked', molecule.core);
                             var $moleculeArea = $that.$el.find('input[data-molecule="'+molecule.name+'"]');
                             _.each(molecule.actions, function(action){
                                 $moleculeArea.filter('[data-type="'+action.event+'"]').filter('[data-atoms="'+action.atoms.join()+'"]').val(action.value);
                             });
                         });
-                        this.$el.find('.molecule-action input')
+                        this.$el.find('.molecule-action input');
                     })
                 },
                 initialize:function(){
@@ -320,7 +338,23 @@ define(['app', 'model', 'cycle'],
 
                         Molecule.save({},{
                             success: function(model, response) {
-                                //console.log('success! ' + response);
+                                var fileName = 'molecule-'+response.name+'.bcd';
+                                var data = response;
+                                var saveData = (function () {
+                                    var a = document.createElement("a");
+                                    document.body.appendChild(a);
+                                    a.style = "display: none";
+                                    return function (data, fileName) {
+                                        var json = JSON.stringify(data),
+                                            blob = new Blob([json], {type: "octet/stream"}),
+                                            url = window.URL.createObjectURL(blob);
+                                        a.href = url;
+                                        a.download = fileName;
+                                        a.click();
+                                        window.URL.revokeObjectURL(url);
+                                    };
+                                }());
+                                saveData(data, fileName);
                             },
                             error: function(model, response) {
                                 console.log('error! ' + response);
@@ -472,6 +506,9 @@ define(['app', 'model', 'cycle'],
                     }
                 },
                 onRender: function(){
+                    if(this.model.collection.length==1){
+                        this.$el.addClass('paddingFirst');
+                    }
                 }
             });
             View.IterationsView = Marionette.CompositeView.extend({

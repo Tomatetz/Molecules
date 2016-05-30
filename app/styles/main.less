@@ -3,6 +3,8 @@
 @import 'css/st1.css';
 
 @commonTransition: all ease-out 1s;
+@fasterTransition: all ease-out 0.3s;
+@fasterTransitionBck: background-color ease-out 0.3s;
 
 .vendor(@property, @value) {
   -webkit-@{property}: @value;
@@ -39,7 +41,9 @@ body{
       color: #5F5F5F;
       text-shadow: 0px 0px 1px rgba(150, 150, 150, 1);
       font-size: 14px;
+      .vendor(transition, @fasterTransition);
       &:hover{
+        .vendor(transition, @fasterTransition);
         background-color: #eee;
         color: #5F5F5F;
         i{
@@ -60,7 +64,9 @@ body{
     text-align: center;
     text-shadow: 0px 0px 1px rgba(150, 150, 150, 1);
     cursor:pointer;
+    .vendor(transition, @fasterTransitionBck);
     &:hover{
+      .vendor(transition, @fasterTransitionBck);
       background-color: #F3F1F1;
     }
   }
@@ -72,7 +78,8 @@ body{
     max-height: 465px;
     overflow: hidden;
     .molecule-view-wrapper{
-      .vendor(transition, @commonTransition);
+      position: relative;
+      .vendor(transition, @fasterTransition);
       &:first-child{
         border-radius: 2px 2px 0 0;
       }
@@ -147,13 +154,15 @@ body{
         position: relative;
         .image{
           max-width:100%;
-          max-height: 153px;
+          margin-top:2px;
+          max-height: 149px;
         }
         .molecule-remove{
           position: absolute;
           right: 10px;
           top: 10px;
-          color: @bloodyred;
+          color: #5F5F5F;
+//          color: @bloodyred;
           &:hover{
             color: @marineblue;
             cursor:pointer!important;
@@ -183,6 +192,7 @@ body{
       &:hover{
         text-decoration: underline;
         color: @bloodyred;
+        .vendor(transition, @fasterTransition);
       }
     }
   }
@@ -249,12 +259,23 @@ body{
   display: none;
 }
 .iterations-wrapper{
-  width:100%;
+  width:100%;padding: 5px 5px 5px 0;
+  border: 1px dashed #dfdfdf;
+  margin-top:5px;
+  box-sizing: border-box;
+  .iterations{
+    text-align: center;
+    font-size: 13px;
+    text-shadow: 0px 0px 1px rgba(150, 150, 150, 1);
+    color: #5F5F5F;
+  }
   .iterations-ul{
     display: table;
     width: 100%;
     padding: 0px;
     text-align: center;
+    margin-top:5px;
+    margin-bottom: 0px;
     li{
       text-shadow: 0px 0px 1px rgba(150, 150, 150, 1);
       list-style-type: none;
@@ -263,32 +284,33 @@ body{
       box-sizing: border-box;
       -moz-box-sizing: border-box;
       -webkit-box-sizing: border-box;
-      border: 1px solid black;
+//      border: 1px solid black;
       border-left: 0px;
+      font-size: 11px;
       cursor:pointer;
       &.active{
-        box-shadow: inset 1px 0px 10px 0px #ABABAB;
-        -webkit-box-shadow: inset 1px 0px 10px 0px #ABABAB;
-        -moz-box-shadow: inset 1px 0px 10px 0px #ABABAB;
-        -o-box-shadow: inset 1px 0px 10px 0px #ABABAB;
+//        -webkit-box-shadow: inset 0px -3px 0px -1px @marineblue;
+//        -moz-box-shadow: inset 0px -3px 0px -1px @marineblue;
+//        box-shadow: inset 0px -3px 0px -1px @marineblue;
+        border-bottom: 2px solid @marineblue;
+        font-size: 15px;
+        cursor: default;
+        &.paddingFirst{
+          padding-right: 43px;
+        }
       }
-      &:hover{
-        background-color: #dfdfdf;
+      &:hover:not(.active){
+        .vendor(transition, @fasterTransitionBck);
+        background-color: #eee;
       }
-      &:last-child{
-        border-radius: 0px 2px 2px 0px;
-        -moz-border-radius: 0px 2px 2px 0px;
-        -webkit-border-radius: 0px 2px 2px 0px;
-      }
+      .vendor(transition, @fasterTransitionBck);
       &.add-iteration{
         width: 50px;
-        background-color: #A3D4C0;
-        border-left: 1px solid black;
-        border-radius: 2px 0px 0px 2px;
-        -moz-border-radius: 2px 0px 0px 2px;
-        -webkit-border-radius: 2px 0px 0px 2px;
+        color: #5F5F5F;
         &:hover{
-          background-color: #80D88F;
+          color:#80D88F;
+          background-color: #fff;
+//          background-color: #80D88F;
         }
       }
     }

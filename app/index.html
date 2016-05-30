@@ -66,10 +66,11 @@
     </div>
 </script>
 
-<script type="text/template" class="iteration-view"><%= number %></script>
+<script type="text/template" class="iteration-view"><p><%= number %></p></script>
 <script type="text/template" class="iterations-view">
+    <div class="iterations">Iterations:</div>
     <ul class="iterations-ul">
-        <li class="add-iteration">+</li>
+        <li class="add-iteration"><i class="fa fa-plus" aria-hidden="true"></i></li>
     </ul>
 </script>
 
@@ -77,7 +78,7 @@
     <div class="molecule-name"><div><%= name %></div></div>
     <div class="molecule-options-wrapper">
         <ul class="molecule-options">
-            <div class="core"><input type="checkbox"></div>
+            <div class="core"><input type="checkbox" class="is-core" data-name="<%= name %>"></div>
             <li class="molecule-option">
                 <% $.each(atomsWithAttach, function(i,atomNumber){ %>
                     <div class="molecule-action"><span><%= atomNumber %>:</span>
