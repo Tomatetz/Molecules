@@ -3,13 +3,45 @@
 @import 'css/st1.css';
 
 @commonTransition: all ease-out 1s;
-@fasterTransition: all ease-out 0.3s;
-@fasterTransitionBck: background-color ease-out 0.3s;
+@fasterTransition: all ease-out 0.5s;
+@fastestTransition: all ease-out 0.3s;
+@fastestTransitionBck: background-color ease-out 0.3s;
+
+@keyframes fadeinphoto {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; color:@marineblue;}
+}
+
+@-moz-keyframes fadeinphoto {
+  0% { opacity: 0; color:@bloodyred;}
+  50% { opacity: 1; }
+  100% { opacity: 0; color:@marineblue;}
+}
+
+@-webkit-keyframes fadeinphoto {
+  0% { opacity: 0; color:@bloodyred;}
+  50% { opacity: 1; }
+  100% { opacity: 0; color:@marineblue;}
+}
+
+@-o-keyframes fadeinphoto {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; color:@marineblue;}
+}
 
 .vendor(@property, @value) {
   -webkit-@{property}: @value;
   -moz-@{property}: @value;
   @{property}: @value;
+}
+.noneselect() {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 @marineblue: hsl(198, 100%, 66%);
 @bloodyred: hsl(0, 78%, 38%);
@@ -21,6 +53,7 @@ body{
   font-family: open-sans;
 }
 #sketcher-wrapper{
+  top: 40%;
   position: relative;
   width:50%;
   float:left;
@@ -32,6 +65,7 @@ body{
 .molecules-view-wrapper{
 //  clear: both;
   .molecules-iteraction{
+    .noneselect();
     div{
       width:50%;
       height:30px;
@@ -40,19 +74,25 @@ body{
       cursor:pointer;
       color: #5F5F5F;
       text-shadow: 0px 0px 1px rgba(150, 150, 150, 1);
-      font-size: 14px;
-      .vendor(transition, @fasterTransition);
+      font-size: 13px;
+      .vendor(transition, @fastestTransition);
       &:hover{
-        .vendor(transition, @fasterTransition);
+        .vendor(transition, @fastestTransition);
         background-color: #eee;
         color: #5F5F5F;
         i{
+          font-size: 14px;
           color: darken(@marineblue, 20%);
+          margin-top: 5px;
         }
       }
       float: left;
       i{
         margin-top: 6px;
+      }
+      &.load-molecules{
+        border-left:1px solid #dfdfdf;
+        border-right:1px solid #dfdfdf;
       }
     }
   }
@@ -64,22 +104,25 @@ body{
     text-align: center;
     text-shadow: 0px 0px 1px rgba(150, 150, 150, 1);
     cursor:pointer;
-    .vendor(transition, @fasterTransitionBck);
+    .vendor(transition, @fastestTransitionBck);
     &:hover{
-      .vendor(transition, @fasterTransitionBck);
+      .vendor(transition, @fastestTransitionBck);
       background-color: #F3F1F1;
     }
   }
   .molecules-wrapper{
+    min-height: 15px;
     border:1px solid #dfdfdf;
     padding: 5px;
     list-style-type: none;
     margin: 0;
-    max-height: 465px;
+    max-height: 80%;
+//    max-height: 465px;
     overflow: hidden;
+    overflow-y: scroll;
     .molecule-view-wrapper{
       position: relative;
-      .vendor(transition, @fasterTransition);
+      .vendor(transition, @fastestTransition);
       &:first-child{
         border-radius: 2px 2px 0 0;
       }
@@ -91,21 +134,37 @@ body{
       min-height: 100px;
       height: 153px;
       .core{
-        position: relative;
-        top: 0px;
+        position: absolute;
+        top: 10px;
         width: 15px;
+        left: 5px;
+        float: left;
+        label{
+          display: block;
+        }
         input{
           margin-left: 0px;
+          display: none;
+        }
+        .fa-core{
+          cursor: pointer;
+        }
+        .fa-check-square-o{
+//          text-shadow: 0px 0px 1px black;
+          color: @marineblue;
         }
       }
       .molecule-name{
         max-width: 100%;
         overflow-x: scroll;
         clear: both;
-        margin-left: 25px;
+//        margin-left: 30%;
+        left:15px;
         white-space: nowrap;
         opacity:0.2;
         position: absolute;
+        font-size: 13px;
+        margin-top: 3px;
         .vendor(transition, @commonTransition);
         &:hover{
           .vendor(transition, @commonTransition);
@@ -116,31 +175,45 @@ body{
         width:30%;
         height: 100%;
         float: left;
-        background-color: #EFEFEF;
-//        margin-top:-22px;
-        &.main-molecule{
-          &:before{
-            content: '•';
-//            content: url(img/Triangle.png);
-            float: left;
-            color:darken(@marineblue,20%);
-            position: absolute;
-            font-size: 45px;
-            margin-left: -9px;
-            margin-top: -23px;
-//            transform: rotate(45deg);
-          }
-        }
         .molecule-options{
-          padding:5px;
           font-size:13px;
           list-style-type: none;
-          max-height: 126px;
+          max-height: 100%;
+          box-sizing: border-box;
           overflow-y: scroll;
-//          padding-top: 22px;
+          padding: 10px 0 0 30px;
+          &::-webkit-scrollbar {
+            width: 2px;
+            margin-left: 2px;
+          }
+          &::-webkit-scrollbar-track {
+            background: none;
+          }
+          &::-webkit-scrollbar-thumb {
+            display: none;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 2px;
+          }
+          &:hover{
+            &::-webkit-scrollbar-thumb{
+              display: block;
+            }
+          }
+
           .molecule-option{
+            .action-wrapper{
+              &.hidden{
+                display: none;
+              }
+            }
             input{
               width: 100%;
+            }
+            .molecule-action{
+              margin-bottom: 5px;
+              padding-bottom: 5px;
+              padding-right: 5px;
+              border-bottom: 1px dashed #dfdfdf
             }
           }
         }
@@ -155,7 +228,8 @@ body{
         .image{
           max-width:100%;
           margin-top:2px;
-          max-height: 149px;
+          max-height: 150px;
+          .noneselect();
         }
         .molecule-remove{
           position: absolute;
@@ -185,21 +259,33 @@ body{
     padding: 5px;
     font-size: 12px;
     text-shadow: 0px 0px 1px rgba(150, 150, 150, 1);
-    height:322px;
+    height:80%;
+//    height:463px;
     overflow-y:scroll;
     li{
       cursor: url(img/cancel.png), auto;
       &:hover{
         text-decoration: underline;
         color: @bloodyred;
-        .vendor(transition, @fasterTransition);
+        .vendor(transition, @fastestTransition);
       }
     }
   }
 }
-
-.insert-order{
-  color:#d868ce;
+.order-wrapper{
+  font-size: 12px;
+  .insert-order{
+    font-size: 14px;
+    color:#d868ce;
+  }
+  .closing-order{
+    font-size: 14px;
+    color:#6bc14e;
+  }
+  .attach-order{
+    font-size: 14px;
+    color:#9C27B0;
+  }
 }
 .pictureInput {
   text-indent: 20px;
@@ -215,7 +301,7 @@ body{
   border-bottom:1px solid @marineblue;
 }
 .input-wrapper {
-  position:relative;
+  position:absolute;
 }
 .img-wrapper {
   position:absolute;
@@ -235,13 +321,34 @@ body{
 .settings{
   position: relative;
   margin-bottom: 15px;
-  padding-bottom: 15px;
+  padding-bottom: 8px;
   border-bottom: 1px dashed #dfdfdf;
 }
 .add-molecule{
   position: relative;
-
-  input.upload {
+  #upload {
+    display: none;
+  }
+  .upload {
+    height: 100%;
+    right:0;
+    margin:0;
+    bottom:0;
+    padding:0;
+    opacity:0;
+    width:100%;
+    outline:none;
+    cursor:pointer;
+    position:absolute;
+    font-size:1000px !important;
+  }
+}
+.load-molecules{
+  position: relative;
+  #upload-list {
+    display: none;
+  }
+  .upload-list {
     height: 100%;
     right:0;
     margin:0;
@@ -259,6 +366,7 @@ body{
   display: none;
 }
 .iterations-wrapper{
+  .noneselect();
   width:100%;padding: 5px 5px 5px 0;
   border: 1px dashed #dfdfdf;
   margin-top:5px;
@@ -300,10 +408,10 @@ body{
         }
       }
       &:hover:not(.active){
-        .vendor(transition, @fasterTransitionBck);
+        .vendor(transition, @fastestTransitionBck);
         background-color: #eee;
       }
-      .vendor(transition, @fasterTransitionBck);
+      .vendor(transition, @fastestTransitionBck);
       &.add-iteration{
         width: 50px;
         color: #5F5F5F;
@@ -315,4 +423,161 @@ body{
       }
     }
   }
+}
+.modal{
+  &.blur{
+//    .vendor(transition, @fasterTransition);
+//    -webkit-filter: blur(2px) grayscale(90%);
+//    filter: blur(2px) grayscale(90%);
+//    opacity: 0.1;
+  }
+}
+.fade{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.6;
+  z-index: 100;
+}
+.modal-dialog{
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
+  margin: 0 auto;
+  width: 400px;
+  height: 100px;
+  background-color: #fff;
+  z-index: 1000;
+  position: absolute;
+  border: 1px solid #5F5F5F;
+  border-radius: 2px;
+  top: 200px;
+  left: 50%;
+  margin-left: -200px;
+  .modal-name{
+    position: absolute;
+    top:5px;
+    border-bottom: 1px dashed #dfdfdf;
+    padding-bottom: 5px;
+    width:100%;
+    text-align: center;
+    color: #555;
+    font-size: 14px;
+    text-shadow: 0px 0px 1px #969696;
+    .noneselect();
+  }
+  .modal-iteractions{
+    position: absolute;
+    top: 50px;
+    left: 23px;
+    .molecules-list-name{
+      text-indent: 20px;
+      height: 25px;
+      color: #555555;
+      text-align: right;
+      width: 212px;
+      border: none;
+      border-bottom: 1px solid #52cbff;
+      outline: none;
+      float: left;
+    }
+    .modal-buttons{
+      float: left;
+      display: inline-flex;
+      color: #555;
+      font-size: 14px;
+      padding-left:40px;
+      .noneselect();
+      .modal-button{
+        padding:5px 10px 5px 10px;
+        .vendor(transition, @fastestTransition);
+        &:hover{
+          .vendor(transition, @fastestTransition);
+          background-color: #eee;
+          color: #5F5F5F;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .error-modal-text{
+    position: absolute;
+    top: 50px;
+    width: 100%;
+    text-align: center;
+    color: @bloodyred;
+    i{
+      animation: fadeinphoto 1s 0s infinite;
+      -moz-animation: fadeinphoto 1s 0s infinite;
+      -webkit-animation: fadeinphoto 1s 0s infinite;
+      -o-animation: fadeinphoto 1s 0s infinite;
+    }
+  }
+}
+.ui-button{
+  .noneselect();
+}
+.settings{
+  .modal-button{
+    text-shadow: 0px 0px 1px rgba(150, 150, 150, 1);
+    padding:5px 10px 5px 10px;
+    text-align: center;
+    .vendor(transition, @fastestTransition);
+    i{
+      color: darken(@marineblue, 20%);
+    }
+    background-color: #eee;
+    color: #5F5F5F;
+    cursor: pointer;
+
+    &:hover{
+      .vendor(transition, @fastestTransition);
+      -webkit-box-shadow: inset 0px -1px 0px 0px @marineblue;
+      -moz-box-shadow: inset 0px -1px 0px 0px @marineblue;
+      box-shadow: inset 0px -1px 0px 0px @marineblue;
+      background-color: #f5f5f5;
+    }
+  }
+}
+.action-input{
+  border: none;
+  border-bottom: 1px solid @marineblue;
+  outline: none;
+  text-align: right;
+  color: #555555;
+  &::-webkit-input-placeholder { padding-right: 5px; }
+  &::-moz-placeholder  { padding-right: 5px; }
+  &:-ms-input-placeholder { padding-right: 5px; }
+  &input:-moz-placeholder  { padding-right: 5px; }
+}
+.closing-item{
+  clear: both;
+  border-bottom: 1px dashed #dfdfdf;
+  padding-bottom: 6px;
+  .closing-input{
+    margin-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    select{
+      float: right;
+    }
+  }
+}
+
+#sketcher_buttons_gws{
+  .ui-button-text{
+    border-color: @marineblue;
+  }
+}
+#sketcher_button_exportJSON{
+  &.alert{
+    background: #eeeeee url('') 50% 50% repeat-x;
+    background-color: rgba(142, 6, 21, 0.28);
+    border: 1px solid rgb(182, 0, 0);
+  }
+  left: 80px;
+  position: relative;
 }

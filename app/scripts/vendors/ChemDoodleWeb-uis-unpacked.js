@@ -10003,7 +10003,15 @@ ChemDoodle.uis = (function() {
 						merging.push(otherMol);
 					}
 				}
-                b.isGWS = this.GWS?true:false;
+                if(this.GWS){
+                    b.a1.showAlt = true;
+                    b.a2.showAlt = true;
+                    b.isGWS = true;
+                } else {
+                    b.a1.showAlt = false;
+                    b.a2.showAlt = false;
+                    b.isGWS = false;
+                }
 				mol.bonds.push(b);
 			}
 			for ( var i = 0, ii = merging.length; i < ii; i++) {
@@ -10296,42 +10304,6 @@ ChemDoodle.uis = (function() {
             }] );
 
             $.each(this.sketcher.molecules, function(i,molecule){
-                var connectedBonds =[],
-                bonds = [];
-                //console.log(molecule);
-                var atOrder = 0;
-                //$.each(molecule.bonds, function(k,bond){
-                //    var atoms = [];
-                //
-                //    for (var key in bond){
-                //        if (key[0]=='a'){
-                //            if(bond[key].isLassoed == true){
-                //                if(!bond[key].atOrder){
-                //                    bond[key].atOrder = atOrder;
-                //                    atOrder++;
-                //                }
-                //                atoms.push(bond[key].atOrder);
-                //            }
-                //        }
-                //    }
-                //    bonds.push(atoms);
-                //});
-                //var cBonds = bonds.filter(function(bond){
-                //    return bond.length==2;
-                //});
-                //var checkingObj ={};
-                //function checkConn(arr, atOrder){
-                //        $.each(arr, function(i, val){
-                //                if($.inArray(atOrder,val)!=-1){
-                //                    checkingObj[atOrder]=checkingObj[atOrder]?unique(checkingObj[atOrder].concat(val)):val;
-                //                }
-                //        })
-                //}
-                //console.log(cBonds[0]);
-                //checkConn(cBonds, cBonds[0][0]);
-                //checkConn(cBonds, cBonds[0][1]);
-                //console.log(checkingObj);
-                //console.log(cBonds);
                 $.each(molecule.rings, function(j,ring){
                     var inRing = ring.atoms.filter(function(atom){
                         return atom.isLassoed == false;
@@ -10719,7 +10691,6 @@ ChemDoodle.uis = (function() {
 	_.innerForward = function() {
         var $that = this;
 		var mol = new structures.Molecule();
-        console.log(this.as);
         $.each(this.as, function(i,atom){
             if(!atom.atomNumber&&!$that.sketcher.atomsCount){
                 atom.atomNumber = i+1;
@@ -11548,13 +11519,12 @@ ChemDoodle.uis = (function() {
         this.newMolAllowed = true;
 		if (this.sketcher.hovering) {
             var selectedAtoms=false;
-            if (this.sketcher.lasso) {
+            if (!!this.sketcher.lasso.atoms.length) {
                 selectedAtoms = this.sketcher.lasso.atoms;
+                this.sketcher.hovering.isSelected = false;
+                this.sketcher.historyManager.pushUndo(new actions.GWSInsertAction(this.sketcher.hovering, this.sketcher, selectedAtoms));
             }
-            this.sketcher.hovering.isSelected = false;
-			this.sketcher.historyManager.pushUndo(new actions.GWSInsertAction(this.sketcher.hovering, this.sketcher, selectedAtoms));
-
-            //this.sketcher.lasso.empty();
+            this.sketcher.lasso.empty();
 		}
 	};
     _.innermousedown = function(e) {
@@ -11708,7 +11678,6 @@ ChemDoodle.uis = (function() {
                             this.sketcher.historyManager.pushUndo(new actions.AddAction(this.sketcher, bs[0].a1, as, bs, 'GWS'));
                         }
                     }
-                    console.log(this.sketcher);
                 }
             }
         }
@@ -11749,7 +11718,6 @@ ChemDoodle.uis = (function() {
 			this.sketcher.historyManager.pushUndo(new actions.DeleteContentAction(this.sketcher, this.sketcher.lasso.atoms, this.sketcher.lasso.shapes));
 			this.sketcher.lasso.empty();
 		} else if (this.sketcher.hovering) {
-            console.log(this.sketcher.hovering);
 			if (this.sketcher.hovering && (this.sketcher.hovering instanceof structures.Atom || this.sketcher.hovering.x)) {
 				if (this.sketcher.oneMolecule) {
 					var mol = this.sketcher.molecules[0];
@@ -11820,7 +11788,8 @@ ChemDoodle.uis = (function() {
 				}
 			} else if (this.sketcher.hovering && (this.sketcher.hovering instanceof structures.Bond || this.sketcher.hovering.bondOrder)) {
 				if (!this.sketcher.oneMolecule || this.sketcher.hovering.ring) {
-                    if(this.sketcher.hovering.isGWS){
+                    console.log(this.sketcher.hovering);
+                    if(this.sketcher.hovering.bondOrder==10){
                         $( "body").trigger( "event", [{
                             action:"GWS Remove Closing Action",
                             atoms:[this.sketcher.hovering.a1.atomNumber, this.sketcher.hovering.a2.atomNumber],
@@ -14493,12 +14462,13 @@ ChemDoodle.uis.gui.imageDepot = (function() {
 		//}
 		sb.push(this.historySet.getSource());
 		sb.push(this.scaleSet.getSource());
-		sb.push(this.buttonOpen.getSource());
+		//sb.push(this.buttonOpen.getSource());
 		//sb.push(this.buttonSave.getSource());
 		//if (this.sketcher.useServices) {
 		//	sb.push(this.buttonSearch.getSource());
 		//	sb.push(this.buttonCalculate.getSource());
 		//}
+        sb.push('&nbsp;&nbsp;&nbsp;');
         sb.push(this.buttonExportJSON.getSource(bg));
 		sb.push('<br>');
 		sb.push(this.labelSet.getSource(bg));
@@ -15191,7 +15161,7 @@ ChemDoodle.uis.gui.imageDepot = (function() {
                 ctx.stroke();
                 ctx.setLineDash([]);
                 ctx.font = "10px Arial";
-                ctx.strokeStyle = '#d868ce';
+                ctx.strokeStyle = '#673ab7';
                 ctx.strokeText(square.name,square.lx,square.fy);
                 ctx.restore();
             });

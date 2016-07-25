@@ -4,25 +4,22 @@
 <link rel="shortcut icon" href="./styles/img/Molecule.ico" type="image/x-icon">
 <link rel="stylesheet" href="./styles/ChemDoodleWeb.css" type="text/css">
 <link rel="stylesheet" href="./styles/jquery-ui-1.10.3.custom.css" type="text/css">
-    <link rel="stylesheet" href="styles/main.css">
+<link rel="stylesheet" href="styles/main.css">
 
 <script type="text/javascript" src="./scripts/vendors/jquery.js"></script>
 <script type="text/javascript" src="./scripts/vendors/ChemDoodleWeb-unpacked.js"></script>
 <script type="text/javascript" src="./scripts/vendors/ChemDoodleWeb-uis-unpacked.js"></script>
-    <!--<script type="text/javascript" src="./scripts/templates/tpls.js"></script>-->
 <title>GWS</title>
     <link rel="stylesheet" href="./scripts/vendors/fontawesome/css/font-awesome.css">
 </head>
 <body>
-
 <div class="settings">
-    <div class="input-wrapper">
-        <div class="img-wrapper"><i class="icon-molecule"></i></div>
-        <input type="text" class="pictureInput" placeholder="Molecule name" />
-
-    </div>
+    <div class="modal-button"><i class="fa fa-folder-o" aria-hidden="true"></i> Save JSON</div>
 </div>
-
+<div class="input-wrapper">
+    <div class="img-wrapper"><i class="icon-molecule"></i></div>
+    <input type="text" class="pictureInput" placeholder="Molecule name" />
+</div>
 <div class="log-wrapper">
 </div>
 <div id="sketcher2"></div>
@@ -31,7 +28,8 @@
   ChemDoodle.ELEMENT['H'].jmolColor = 'black';
   ChemDoodle.ELEMENT['S'].jmolColor = '#B9A130';
   var ww = $(window).width()*0.5-16;
-  var sketcher = new ChemDoodle.SketcherCanvas('sketcher', ww, 300,{useServices:true});
+  var hh = $(window).height()*0.8-35;
+  var sketcher = new ChemDoodle.SketcherCanvas('sketcher', ww, hh,{useServices:true});
   sketcher.specs.atoms_displayTerminalCarbonLabels_2D = true;
   sketcher.specs.atoms_useJMOLColors = true;
   sketcher.specs.bonds_clearOverlaps_2D = true;
@@ -43,76 +41,5 @@
 <br>
 </body>
 <script data-main="scripts/main" src="scripts/vendors/requirejs/require.js"></script>
-
-<script type="text/template" class="molecules-view">
-    <div class="molecules-iteraction">
-        <div class="new-molecule"><i class="fa fa-pencil" aria-hidden="true"></i> Draw new molecule</div>
-        <div class="add-molecule"><i class="fa fa-external-link" aria-hidden="true"></i> Load molecule
-            <form name="fileinfo" class="upload-molecule-form" method='post' action='api/upload' enctype="multipart/form-data" target="dummyframe">
-                <input type='file' name='fileUploaded' class="upload">
-            </form>
-        </div>
-        <iframe width="0" height="0" border="0" name="dummyframe" id="dummyframe"></iframe>
-    </div>
-    <div class="molecules-arrow slide-up" data-destination="up"><i class="fa fa-caret-up" aria-hidden="true"></i></div>
-    <ul class="molecules-wrapper"></ul>
-    <div class="molecules-arrow slide-down" data-destination="down"><i class="fa fa-caret-down" aria-hidden="true"></i></div>
-
-    <div class="iterations-wrapper">
-        <!--<ul class="iterations-ul">-->
-            <!--<li class="iteration">1</li>-->
-            <!--<li class="add-iteration">+</li>-->
-        <!--</ul>-->
-    </div>
-</script>
-
-<script type="text/template" class="iteration-view"><p><%= number %></p></script>
-<script type="text/template" class="iterations-view">
-    <div class="iterations">Iterations:</div>
-    <ul class="iterations-ul">
-        <li class="add-iteration"><i class="fa fa-plus" aria-hidden="true"></i></li>
-    </ul>
-</script>
-
-<script type="text/template" class="molecule-view">
-    <div class="molecule-name"><div><%= name %></div></div>
-    <div class="molecule-options-wrapper">
-        <ul class="molecule-options">
-            <div class="core"><input type="checkbox" class="is-core" data-name="<%= name %>"></div>
-            <li class="molecule-option">
-                <% $.each(atomsWithAttach, function(i,atomNumber){ %>
-                    <div class="molecule-action"><span><%= atomNumber %>:</span>
-                        <input data-type="attach" data-atoms="<%= atomNumber %>" data-molecule="<%= name %>" type="text"
-                               onkeypress='return (event.charCode >= 48 && event.charCode <= 57)||event.charCode==44||event.charCode==59||event.charCode==32' />
-                    </div>
-                <% }) %>
-                <% $.each(square, function(i,square){ %>
-                <div class="molecule-action"><span><span class="insert-order"><%= square.name %></span>
-                    (<%= square.atoms %>):</span>
-                    <input data-type="insert" data-atoms="<%= square.atoms %>" data-name="<%= square.name %>" data-molecule="<%= name %>" type="text"
-                               onkeypress='return (event.charCode >= 48 && event.charCode <= 57)||event.charCode==44||event.charCode==59||event.charCode==32' />
-                </div>
-                <% }) %>
-            </li>
-        </ul>
-    </div>
-    <div class="molecule-image-wrapper">
-        <img class="image" src="">
-        <div class="molecule-remove"><i class="fa fa-trash-o" aria-hidden="true"></i></div>
-    </div>
-</script>
-
-
-<script type="text/template" class="action-view">
-    <li class="log-li log-insert"><%= action %>
-        <% if(order){ %>
-            <span class="insert-order">G<%= order %></span>
-        <% } %>
-        (<%= atoms %>)
-    </li>
-</script>
-<script type="text/template" class="actions-view">
-    <ul class="log-ul"></ul>
-</script>
 <img id="demo-img">
 </html>

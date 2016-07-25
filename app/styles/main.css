@@ -1,6 +1,56 @@
 @import 'jquery-ui-1.10.3.custom.css';
 @import 'ChemDoodleWeb.css';
 @import 'css/st1.css';
+@keyframes fadeinphoto {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    color: #52cbff;
+  }
+}
+@-moz-keyframes fadeinphoto {
+  0% {
+    opacity: 0;
+    color: #ac1515;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    color: #52cbff;
+  }
+}
+@-webkit-keyframes fadeinphoto {
+  0% {
+    opacity: 0;
+    color: #ac1515;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    color: #52cbff;
+  }
+}
+@-o-keyframes fadeinphoto {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    color: #52cbff;
+  }
+}
 @font-face {
   font-family: open-sans;
   /* Имя шрифта */
@@ -11,6 +61,7 @@ body {
   font-family: open-sans;
 }
 #sketcher-wrapper {
+  top: 40%;
   position: relative;
   width: 50%;
   float: left;
@@ -18,6 +69,13 @@ body {
 .main {
   float: right;
   width: 30%;
+}
+.molecules-view-wrapper .molecules-iteraction {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .molecules-view-wrapper .molecules-iteraction div {
   width: 50%;
@@ -27,7 +85,7 @@ body {
   cursor: pointer;
   color: #5F5F5F;
   text-shadow: 0px 0px 1px #969696;
-  font-size: 14px;
+  font-size: 13px;
   -webkit-transition: all ease-out 0.3s;
   -moz-transition: all ease-out 0.3s;
   transition: all ease-out 0.3s;
@@ -41,10 +99,16 @@ body {
   color: #5F5F5F;
 }
 .molecules-view-wrapper .molecules-iteraction div:hover i {
+  font-size: 14px;
   color: #00a4eb;
+  margin-top: 5px;
 }
 .molecules-view-wrapper .molecules-iteraction div i {
   margin-top: 6px;
+}
+.molecules-view-wrapper .molecules-iteraction div.load-molecules {
+  border-left: 1px solid #dfdfdf;
+  border-right: 1px solid #dfdfdf;
 }
 .molecules-view-wrapper .molecules-arrow {
   clear: both;
@@ -65,12 +129,14 @@ body {
   background-color: #F3F1F1;
 }
 .molecules-view-wrapper .molecules-wrapper {
+  min-height: 15px;
   border: 1px solid #dfdfdf;
   padding: 5px;
   list-style-type: none;
   margin: 0;
-  max-height: 465px;
+  max-height: 80%;
   overflow: hidden;
+  overflow-y: scroll;
 }
 .molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper {
   position: relative;
@@ -89,21 +155,35 @@ body {
   border-radius: 0 0 2px 2px;
 }
 .molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .core {
-  position: relative;
-  top: 0px;
+  position: absolute;
+  top: 10px;
   width: 15px;
+  left: 5px;
+  float: left;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .core label {
+  display: block;
 }
 .molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .core input {
   margin-left: 0px;
+  display: none;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .core .fa-core {
+  cursor: pointer;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .core .fa-check-square-o {
+  color: #52cbff;
 }
 .molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-name {
   max-width: 100%;
   overflow-x: scroll;
   clear: both;
-  margin-left: 25px;
+  left: 15px;
   white-space: nowrap;
   opacity: 0.2;
   position: absolute;
+  font-size: 13px;
+  margin-top: 3px;
   -webkit-transition: all ease-out 1s;
   -moz-transition: all ease-out 1s;
   transition: all ease-out 1s;
@@ -118,26 +198,41 @@ body {
   width: 30%;
   height: 100%;
   float: left;
-  background-color: #EFEFEF;
-}
-.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-options-wrapper.main-molecule:before {
-  content: '•';
-  float: left;
-  color: #00a4eb;
-  position: absolute;
-  font-size: 45px;
-  margin-left: -9px;
-  margin-top: -23px;
 }
 .molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-options-wrapper .molecule-options {
-  padding: 5px;
   font-size: 13px;
   list-style-type: none;
-  max-height: 126px;
+  max-height: 100%;
+  box-sizing: border-box;
   overflow-y: scroll;
+  padding: 10px 0 0 30px;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-options-wrapper .molecule-options::-webkit-scrollbar {
+  width: 2px;
+  margin-left: 2px;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-options-wrapper .molecule-options::-webkit-scrollbar-track {
+  background: none;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-options-wrapper .molecule-options::-webkit-scrollbar-thumb {
+  display: none;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-options-wrapper .molecule-options:hover::-webkit-scrollbar-thumb {
+  display: block;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-options-wrapper .molecule-options .molecule-option .action-wrapper.hidden {
+  display: none;
 }
 .molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-options-wrapper .molecule-options .molecule-option input {
   width: 100%;
+}
+.molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-options-wrapper .molecule-options .molecule-option .molecule-action {
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  border-bottom: 1px dashed #dfdfdf;
 }
 .molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-image-wrapper {
   text-align: center;
@@ -149,7 +244,12 @@ body {
 .molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-image-wrapper .image {
   max-width: 100%;
   margin-top: 2px;
-  max-height: 149px;
+  max-height: 150px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .molecules-view-wrapper .molecules-wrapper .molecule-view-wrapper .molecule-image-wrapper .molecule-remove {
   position: absolute;
@@ -175,7 +275,7 @@ body {
   padding: 5px;
   font-size: 12px;
   text-shadow: 0px 0px 1px #969696;
-  height: 322px;
+  height: 80%;
   overflow-y: scroll;
 }
 .log-wrapper .log-ul li {
@@ -188,8 +288,20 @@ body {
   -moz-transition: all ease-out 0.3s;
   transition: all ease-out 0.3s;
 }
-.insert-order {
+.order-wrapper {
+  font-size: 12px;
+}
+.order-wrapper .insert-order {
+  font-size: 14px;
   color: #d868ce;
+}
+.order-wrapper .closing-order {
+  font-size: 14px;
+  color: #6bc14e;
+}
+.order-wrapper .attach-order {
+  font-size: 14px;
+  color: #9C27B0;
 }
 .pictureInput {
   text-indent: 20px;
@@ -205,7 +317,7 @@ body {
   outline: none;
 }
 .input-wrapper {
-  position: relative;
+  position: absolute;
 }
 .img-wrapper {
   position: absolute;
@@ -224,13 +336,35 @@ body {
 .settings {
   position: relative;
   margin-bottom: 15px;
-  padding-bottom: 15px;
+  padding-bottom: 8px;
   border-bottom: 1px dashed #dfdfdf;
 }
 .add-molecule {
   position: relative;
 }
-.add-molecule input.upload {
+.add-molecule #upload {
+  display: none;
+}
+.add-molecule .upload {
+  height: 100%;
+  right: 0;
+  margin: 0;
+  bottom: 0;
+  padding: 0;
+  opacity: 0;
+  width: 100%;
+  outline: none;
+  cursor: pointer;
+  position: absolute;
+  font-size: 1000px !important;
+}
+.load-molecules {
+  position: relative;
+}
+.load-molecules #upload-list {
+  display: none;
+}
+.load-molecules .upload-list {
   height: 100%;
   right: 0;
   margin: 0;
@@ -247,6 +381,11 @@ body {
   display: none;
 }
 .iterations-wrapper {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   width: 100%;
   padding: 5px 5px 5px 0;
   border: 1px dashed #dfdfdf;
@@ -303,4 +442,175 @@ body {
 .iterations-wrapper .iterations-ul li.add-iteration:hover {
   color: #80D88F;
   background-color: #fff;
+}
+.fade {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.6;
+  z-index: 100;
+}
+.modal-dialog {
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
+  margin: 0 auto;
+  width: 400px;
+  height: 100px;
+  background-color: #fff;
+  z-index: 1000;
+  position: absolute;
+  border: 1px solid #5F5F5F;
+  border-radius: 2px;
+  top: 200px;
+  left: 50%;
+  margin-left: -200px;
+}
+.modal-dialog .modal-name {
+  position: absolute;
+  top: 5px;
+  border-bottom: 1px dashed #dfdfdf;
+  padding-bottom: 5px;
+  width: 100%;
+  text-align: center;
+  color: #555;
+  font-size: 14px;
+  text-shadow: 0px 0px 1px #969696;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.modal-dialog .modal-iteractions {
+  position: absolute;
+  top: 50px;
+  left: 23px;
+}
+.modal-dialog .modal-iteractions .molecules-list-name {
+  text-indent: 20px;
+  height: 25px;
+  color: #555555;
+  text-align: right;
+  width: 212px;
+  border: none;
+  border-bottom: 1px solid #52cbff;
+  outline: none;
+  float: left;
+}
+.modal-dialog .modal-iteractions .modal-buttons {
+  float: left;
+  display: inline-flex;
+  color: #555;
+  font-size: 14px;
+  padding-left: 40px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.modal-dialog .modal-iteractions .modal-buttons .modal-button {
+  padding: 5px 10px 5px 10px;
+  -webkit-transition: all ease-out 0.3s;
+  -moz-transition: all ease-out 0.3s;
+  transition: all ease-out 0.3s;
+}
+.modal-dialog .modal-iteractions .modal-buttons .modal-button:hover {
+  -webkit-transition: all ease-out 0.3s;
+  -moz-transition: all ease-out 0.3s;
+  transition: all ease-out 0.3s;
+  background-color: #eee;
+  color: #5F5F5F;
+  cursor: pointer;
+}
+.modal-dialog .error-modal-text {
+  position: absolute;
+  top: 50px;
+  width: 100%;
+  text-align: center;
+  color: #ac1515;
+}
+.modal-dialog .error-modal-text i {
+  animation: fadeinphoto 1s 0s infinite;
+  -moz-animation: fadeinphoto 1s 0s infinite;
+  -webkit-animation: fadeinphoto 1s 0s infinite;
+  -o-animation: fadeinphoto 1s 0s infinite;
+}
+.ui-button {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.settings .modal-button {
+  text-shadow: 0px 0px 1px #969696;
+  padding: 5px 10px 5px 10px;
+  text-align: center;
+  -webkit-transition: all ease-out 0.3s;
+  -moz-transition: all ease-out 0.3s;
+  transition: all ease-out 0.3s;
+  background-color: #eee;
+  color: #5F5F5F;
+  cursor: pointer;
+}
+.settings .modal-button i {
+  color: #00a4eb;
+}
+.settings .modal-button:hover {
+  -webkit-transition: all ease-out 0.3s;
+  -moz-transition: all ease-out 0.3s;
+  transition: all ease-out 0.3s;
+  -webkit-box-shadow: inset 0px -1px 0px 0px #52cbff;
+  -moz-box-shadow: inset 0px -1px 0px 0px #52cbff;
+  box-shadow: inset 0px -1px 0px 0px #52cbff;
+  background-color: #f5f5f5;
+}
+.action-input {
+  border: none;
+  border-bottom: 1px solid #52cbff;
+  outline: none;
+  text-align: right;
+  color: #555555;
+}
+.action-input::-webkit-input-placeholder {
+  padding-right: 5px;
+}
+.action-input::-moz-placeholder {
+  padding-right: 5px;
+}
+.action-input:-ms-input-placeholder {
+  padding-right: 5px;
+}
+.action-inputinput:-moz-placeholder {
+  padding-right: 5px;
+}
+.closing-item {
+  clear: both;
+  border-bottom: 1px dashed #dfdfdf;
+  padding-bottom: 6px;
+}
+.closing-item .closing-input {
+  margin-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.closing-item .closing-input select {
+  float: right;
+}
+#sketcher_buttons_gws .ui-button-text {
+  border-color: #52cbff;
+}
+#sketcher_button_exportJSON {
+  left: 80px;
+  position: relative;
+}
+#sketcher_button_exportJSON.alert {
+  background: #eeeeee url('') 50% 50% repeat-x;
+  background-color: rgba(142, 6, 21, 0.28);
+  border: 1px solid #b60000;
 }

@@ -17,6 +17,12 @@ define(['app'],
             Model.molecule = Backbone.Model.extend({
                 urlRoot: app.url + '/api/molecule'
             });
+            Model.molecules = Backbone.Model.extend({
+                urlRoot: app.url + '/api/molecules'
+            });
+            Model.saveExperiment = Backbone.Model.extend({
+                urlRoot: app.url + '/api/experiment'
+            });
         });
 
         return app.Show.Model

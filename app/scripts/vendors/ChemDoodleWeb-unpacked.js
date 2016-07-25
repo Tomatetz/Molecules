@@ -15424,6 +15424,9 @@ ChemDoodle.RESIDUE = (function() {
                 delete this.altLabel;
             }
         }
+        if(this.showAlt){
+            this.altLabel = this.label + this.atomNumber;
+        }
         if(this.highlight){
             ctx.setLineDash([4, 2]);
             ctx.beginPath();

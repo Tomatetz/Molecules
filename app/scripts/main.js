@@ -32,6 +32,7 @@ require.config({
         underscore: 'vendors/underscore/underscore',
         marionette: 'vendors/marionette/lib/backbone.marionette',
         chemDoodle: 'vendors/ChemDoodleWeb-unpacked',
+        tpl: 'vendors/tpl',
         chemDoodleUis: 'vendors/ChemDoodleWeb-uis-unpacked',
         cycle: 'vendors/cycle',
         app: './app'
@@ -39,5 +40,5 @@ require.config({
 });
 
 require([
-    'backbone', 'marionette','chemDoodleUis', 'app'
+    'backbone', 'marionette','chemDoodleUis', 'app', 'tpl'
 ], function (Backbone, Marionette) {});
